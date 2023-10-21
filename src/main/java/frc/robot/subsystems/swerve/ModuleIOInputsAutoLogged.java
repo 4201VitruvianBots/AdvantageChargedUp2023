@@ -5,7 +5,7 @@ import java.lang.Override;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-import frc.robot.subsystems.SwerveDrive.ModuleIOInputsAutoLogged;
+import frc.robot.subsystems.swerve.ModuleIOInputsAutoLogged;
 
 public class ModuleIOInputsAutoLogged extends ModuleIO.ModuleIOInputs implements LoggableInputs, Cloneable {
   @Override

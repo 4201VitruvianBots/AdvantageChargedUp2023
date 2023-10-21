@@ -61,6 +61,9 @@ import frc.robot.subsystems.elevator.ElevatorIOReal;
 import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.subsystems.wrist.Wrist;
+import frc.robot.subsystems.wrist.WristIO;
+import frc.robot.subsystems.wrist.WristIOReal;
+import frc.robot.subsystems.wrist.WristIOSim;
 import frc.robot.utils.LogManager;
 import frc.robot.utils.TrajectoryUtils;
 import java.io.File;
@@ -122,7 +125,7 @@ public class RobotContainer implements AutoCloseable {
       m_swerveDrive = new SwerveDrive();
       m_intake = new Intake();
       m_elevator = new Elevator(new ElevatorIOReal());
-      m_wrist = new Wrist(m_intake);
+      m_wrist = new Wrist(new WristIOReal());
       m_controls = new Controls();
       m_vision = new Vision(m_swerveDrive, m_logger, m_controls, m_intake);
       m_autoChooser = new SendableChooser<>();
@@ -135,7 +138,7 @@ public class RobotContainer implements AutoCloseable {
       m_swerveDrive = new SwerveDrive();
       m_intake = new Intake();
       m_elevator = new Elevator(new ElevatorIOSim());
-      m_wrist = new Wrist(m_intake);
+      m_wrist = new Wrist(new WristIOSim());
       m_controls = new Controls();
       m_vision = new Vision(m_swerveDrive, m_logger, m_controls, m_intake);
       m_autoChooser = new SendableChooser<>();

@@ -37,13 +37,14 @@ import frc.robot.Constants.WRIST;
 import frc.robot.Constants.WRIST.THRESHOLD;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateHandler;
+import frc.robot.subsystems.elevator.ElevatorIO;
 import frc.robot.subsystems.wrist.WristIO.WristIOInputs;
 
 public class Wrist extends SubsystemBase implements AutoCloseable {
 
   private boolean m_wristInitialized = false;
 
-  private final WristIO m_io;
+  private WristIO m_io;
   private final WristIOInputsAutoLogged m_inputs = new WristIOInputsAutoLogged();
   
   private final DigitalInput resetSwitch = new DigitalInput(DIO.resetWristSwitch);
@@ -59,7 +60,7 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   private boolean m_limitJoystickInput;
   private boolean m_userSetpoint;
 
-  private final Intake m_intake;
+  private Intake m_intake;
 
   private TrapezoidProfile.Constraints m_currentConstraints = WRIST.m_constraints;
 
@@ -119,7 +120,9 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   private DoublePublisher currentTrapezoidAcceleration;
   private StringPublisher currentCommandStatePub;
 
-  
+  public Wrist(WristIO io) {
+    m_io = io;
+  }
 
   // Workaround for wrist not setting angle properly/inversion race condition
   private void initializeWristAngle() {
@@ -145,7 +148,7 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   }
 
   public double getPercentOutput() {
-    return wristMotor.getMotorOutputPercent();
+    return m_inputs.percentOutput;
   }
 
   public void setUserInput(double input) {
@@ -333,9 +336,9 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
         "Wrist Error", (m_setpoint.position * 180 / Math.PI) - getPositionDegrees());
 
     SmartDashboard.putNumber("WristPercentOutput", getPercentOutput());
-    currentCommandStatePub.set(getClosedLoopControlMode().toString());
-    kDesiredAngleDegreesPub.set(Units.radiansToDegrees(getDesiredPositionRadians()));
-    kCurrentAngleDegreesPub.set(getPositionDegrees());
+    // // currentCommandStatePub.set(getClosedLoopControlMode().toString());
+    // kDesiredAngleDegreesPub.set(Units.radiansToDegrees(getDesiredPositionRadians()));
+    // kCurrentAngleDegreesPub.set(getPositionDegrees());
   }
 
   // public void updateLog() {
