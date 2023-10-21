@@ -32,6 +32,7 @@ import frc.robot.commands.auto.CenterOneBalance;
 // import frc.robot.commands.auto.CenterOneBalance;
 import frc.robot.commands.auto.CenterOneBalanceCross;
 import frc.robot.commands.auto.DriveForward;
+import frc.robot.commands.auto.FakeCycles;
 import frc.robot.commands.auto.HighConeTimerTest;
 import frc.robot.commands.auto.HighCubeTimerTest;
 import frc.robot.commands.auto.MidCubeTimerTest;
@@ -55,6 +56,7 @@ import frc.robot.commands.wrist.*;
 import frc.robot.simulation.FieldSim;
 import frc.robot.simulation.MemoryLog;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.SwerveDrive.SwerveDrive;
 import frc.robot.utils.LogManager;
 import frc.robot.utils.TrajectoryUtils;
 import java.io.File;
@@ -358,6 +360,17 @@ public class RobotContainer implements AutoCloseable {
         "SubstationThree",
         new SubstationThree(
             "SubstationTwoPickup",
+            m_swerveDrive,
+            m_fieldSim,
+            m_wrist,
+            m_intake,
+            m_vision,
+            m_elevator,
+            m_stateHandler));
+             m_autoChooser.addOption(
+        "FakeCycles",
+        new FakeCycles(
+            "FakeCycles",
             m_swerveDrive,
             m_fieldSim,
             m_wrist,
