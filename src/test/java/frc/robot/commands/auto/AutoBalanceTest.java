@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.AUTO;
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.AutoBalance;
-import frc.robot.subsystems.SwerveDrive.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveDrive;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

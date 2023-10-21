@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import frc.robot.Constants.SWERVE_DRIVE;
 import frc.robot.simulation.SimConstants;
-import frc.robot.subsystems.SwerveDrive.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveDrive;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -8,8 +8,9 @@ import frc.robot.RobotContainer;
 import frc.robot.simulation.FieldSim;
 import frc.robot.simulation.SimConstants;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.SwerveDrive.SwerveDrive;
 import frc.robot.subsystems.elevator.Elevator;
+import frc.robot.subsystems.swerve.SwerveDrive;
+
 import org.junit.jupiter.api.*;
 
 public class AutoTest {

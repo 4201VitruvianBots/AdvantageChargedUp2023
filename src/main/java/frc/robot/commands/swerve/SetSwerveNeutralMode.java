@@ -2,7 +2,7 @@ package frc.robot.commands.swerve;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.SwerveDrive.SwerveDrive;
+import frc.robot.subsystems.swerve.SwerveDrive;
 
 /** Sets the drivetrain to neutral (coast/brake) */
 public class SetSwerveNeutralMode extends CommandBase {

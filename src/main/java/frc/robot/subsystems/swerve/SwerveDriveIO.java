@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems.SwerveDrive;
+package frc.robot.subsystems.swerve;
 
 import static frc.robot.subsystems.StateHandler.m_chassisRoot2d;
 
@@ -37,6 +37,8 @@ import frc.robot.Constants.STATE_HANDLER;
 import frc.robot.Constants.SWERVE_DRIVE;
 import frc.robot.Constants.SWERVE_DRIVE.SWERVE_MODULE_POSITION;
 import frc.robot.subsystems.StateHandler;
+import frc.robot.subsystems.SwerveDrive.GyroIOInputsAutoLogged;
+import frc.robot.subsystems.SwerveDrive.ModuleIOInputsAutoLogged;
 import frc.robot.utils.LoggedTunableNumber;
 import frc.robot.utils.ModuleMap;
 import java.util.HashMap;
