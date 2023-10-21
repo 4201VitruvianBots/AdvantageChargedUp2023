@@ -15,6 +15,7 @@ import frc.robot.commands.swerve.DriveForwardWithVisionInput;
 import frc.robot.commands.swerve.SetSwerveOdometry;
 import frc.robot.simulation.FieldSim;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.utils.TrajectoryUtils;

@@ -7,7 +7,7 @@ package frc.robot.commands.statehandler;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.swerve.SwerveDrive;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.wrist.Wrist;
 
 public class ZeroAllSensors extends CommandBase {
   /** Creates a new ZeroAll. */

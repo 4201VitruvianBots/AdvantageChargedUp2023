@@ -19,9 +19,9 @@ import frc.robot.simulation.FieldSim;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateHandler;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.Wrist;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.TrajectoryUtils;
 import java.util.List;
 

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.WRIST;
 import frc.robot.subsystems.StateHandler;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.wrist.Wrist;
 
 public class RunWristTestMode extends CommandBase {
   private final Wrist m_wrist;
@@ -126,7 +126,7 @@ public class RunWristTestMode extends CommandBase {
 
     if (testKF != newKF
         || (testKP != newKP || testKI != newKI || testKD != newKD || newIZone != newIZone)) {
-      m_wrist.setPIDvalues(newKF, newKP, newKI, newKD, newIZone);
+      m_wrist.setPIDValues(newKF, newKP, newKI, newKD, newIZone);
       testKF = newKF;
       testKP = newKP;
       testKI = newKI;

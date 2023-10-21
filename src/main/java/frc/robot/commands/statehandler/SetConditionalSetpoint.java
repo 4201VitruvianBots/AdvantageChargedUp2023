@@ -10,7 +10,7 @@ import frc.robot.Constants.SCORING_STATE;
 import frc.robot.Constants.STATE_HANDLER.SETPOINT;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.StateHandler;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.elevator.Elevator;
 
 public class SetConditionalSetpoint extends CommandBase {

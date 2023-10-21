@@ -20,6 +20,7 @@ import frc.robot.Constants.VISION.CAMERA_SERVER;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.ChargedUpNodeMask;
 import frc.robot.utils.ModuleMap;
 import java.util.ArrayList;

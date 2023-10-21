@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.wrist;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -35,13 +35,17 @@ import frc.robot.Constants.DIO;
 import frc.robot.Constants.INTAKE.INTAKE_STATE;
 import frc.robot.Constants.WRIST;
 import frc.robot.Constants.WRIST.THRESHOLD;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.StateHandler;
+import frc.robot.subsystems.wrist.WristIO.WristIOInputs;
 
 public class Wrist extends SubsystemBase implements AutoCloseable {
 
-  // Initialize single wrist motor
-  private static final TalonFX wristMotor = new TalonFX(CAN.wristMotor);
   private boolean m_wristInitialized = false;
 
+  private final WristIO m_io;
+  private final WristIOInputsAutoLogged m_inputs = new WristIOInputsAutoLogged();
+  
   private final DigitalInput resetSwitch = new DigitalInput(DIO.resetWristSwitch);
 
   private double m_desiredSetpointRadians;
@@ -115,40 +119,13 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   private DoublePublisher currentTrapezoidAcceleration;
   private StringPublisher currentCommandStatePub;
 
-  /** Creates a new Wrist. */
-  public Wrist(Intake intake) {
-    m_intake = intake;
-
-    // Factory default configs
-    wristMotor.configFactoryDefault();
-    wristMotor.setNeutralMode(NeutralMode.Brake);
-    wristMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 0);
-    wristMotor.config_kP(0, WRIST.kP);
-    wristMotor.config_kI(0, WRIST.kI);
-    wristMotor.config_kD(0, WRIST.kD);
-    wristMotor.configPeakOutputForward(WRIST.kMaxPercentOutput, WRIST.kTimeoutMs);
-    wristMotor.configPeakOutputReverse(-WRIST.kMaxPercentOutput, WRIST.kTimeoutMs);
-    wristMotor.setInverted(WRIST.motorInversionType);
-
-    // TODO: Review limits, test to see what is appropriate or not
-    wristMotor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, 40, 30, 0.2));
-
-    wristMotor.configAllowableClosedloopError(0, 1 / WRIST.encoderUnitsToDegrees);
-
-    initSmartDashboard();
-    m_timer.reset();
-    m_timer.start();
-
-    m_simEncoderSign = wristMotor.getInverted() ? -1 : 1;
-
-    m_wristLigament2d.setColor(new Color8Bit(144, 238, 144)); // Light green
-  }
+  
 
   // Workaround for wrist not setting angle properly/inversion race condition
   private void initializeWristAngle() {
     if (DriverStation.isDisabled() && !m_wristInitialized) {
       double wristResetAngleDegrees = -15.0;
-      resetAngleDegrees(wristResetAngleDegrees);
+      m_io.resetAngleDegrees(wristResetAngleDegrees);
 
       if (Math.abs(getPositionDegrees() - wristResetAngleDegrees) <= 0.05)
         m_wristInitialized = true;
@@ -214,28 +191,13 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
       }
     }
 
-    wristMotor.set(ControlMode.PercentOutput, output);
+    m_io.setPercentOutput(output);
   }
 
-  // code to limit the minimum/maximum setpoint of the wrist/ might be status frames
-  // Returns the amount of voltage the motors are outputting.
-  public double getMotorOutputVoltage() {
-    return wristMotor.getMotorOutputVoltage();
-  }
 
-  // Returns the amount of voltage the motors are being supplied.
-  public double getMotorOutputCurrent() {
-    return wristMotor.getSupplyCurrent();
-  }
 
-  // Sets the setpoint of the wrist using a state calculated in periodic
-  public void setSetpointTrapezoidState(TrapezoidProfile.State state) {
-    wristMotor.set(
-        ControlMode.Position,
-        Units.radiansToDegrees(state.position) / WRIST.encoderUnitsToDegrees,
-        DemandType.ArbitraryFeedForward,
-        calculateFeedforward(state));
-  }
+
+
 
   private double calculateFeedforward(TrapezoidProfile.State state) {
     return (m_currentFeedForward.calculate(state.position, state.velocity) / 12.0);
@@ -245,13 +207,6 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
     m_testMode = mode;
   }
 
-  public void setPIDvalues(double f, double p, double i, double d, double izone) {
-    wristMotor.config_kF(WRIST.kSlotIdx, f);
-    wristMotor.config_kP(WRIST.kSlotIdx, p);
-    wristMotor.config_kI(WRIST.kSlotIdx, i);
-    wristMotor.config_kD(WRIST.kSlotIdx, d);
-    wristMotor.config_IntegralZone(WRIST.kSlotIdx, izone);
-  }
 
   public void setArmMotorFeedForward(double s, double g, double v, double a) {
     m_currentFeedForward = new ArmFeedforward(s, g, v, a);
@@ -265,7 +220,7 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   public void resetTrapezoidState() {
     m_setpoint =
         new TrapezoidProfile.State(
-            getPositionRadians(), Units.degreesToRadians(getVelocityDegreesPerSecond()));
+            getPositionRadians(), Units.degreesToRadians(m_inputs.velocityDegreesPerSecond));
   }
 
   public void setSetpointPositionRadians(double desiredAngleRadians) {
@@ -281,27 +236,12 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   }
 
   public double getPositionDegrees() {
-    return getSensorPosition() * WRIST.encoderUnitsToDegrees;
+    return Units.radiansToDegrees(m_inputs.positionRadians);
   }
-
-  public double getVelocityDegreesPerSecond() {
-    return wristMotor.getSelectedSensorVelocity() * WRIST.encoderUnitsToDegrees * 10;
-  }
-
+  
   // Converts the angle of the wrist into a Rotation2d object to be applied to a Pose2d
   public Rotation2d getWristAngleRotation2d() {
     return Rotation2d.fromDegrees(getPositionDegrees());
-  }
-
-  // Returns the raw sensor value in encoder counts
-  private double getSensorPosition() {
-    return wristMotor.getSelectedSensorPosition();
-  }
-
-  // reset angle of the wrist. ~-15 degrees is the position of the wrist when the intake is touching
-  // the ground.
-  public void resetAngleDegrees(double angleDegrees) {
-    wristMotor.setSelectedSensorPosition(angleDegrees / WRIST.encoderUnitsToDegrees);
   }
 
   public void setLowerLimit(double radians) {
@@ -349,9 +289,21 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
     else if (getPositionDegrees() >= 30) m_newKI = 0;
 
     if (m_currentKI != m_newKI) {
-      wristMotor.config_kI(0, m_newKI);
+      m_io.setIValue(m_newKI);
       m_currentKI = m_newKI;
     }
+  }
+
+  public void setSetpointTrapezoidState(TrapezoidProfile.State state) {
+    m_io.setSetpointTrapezoidState(state, calculateFeedforward(state));
+  }
+
+  public void setPIDValues(double f, double p, double i, double d, double iZone) {
+    m_io.setPIDValues(f, p, i, d, iZone);
+  }
+
+  public void resetAngleDegrees(double angleDegrees) {
+    m_io.resetAngleDegrees(angleDegrees);
   }
 
   private void initSmartDashboard() {
@@ -386,12 +338,12 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
     kCurrentAngleDegreesPub.set(getPositionDegrees());
   }
 
-  public void updateLog() {
-    voltageEntry.append(getMotorOutputVoltage());
-    currentEntry.append(getMotorOutputCurrent());
-    desiredPositionEntry.append(getDesiredPositionRadians());
-    positionDegreesEntry.append(getPositionDegrees());
-  }
+  // public void updateLog() {
+  //   voltageEntry.append(getMotorOutputVoltage());
+  //   currentEntry.append(getMotorOutputCurrent());
+  //   desiredPositionEntry.append(getDesiredPositionRadians());
+  //   positionDegreesEntry.append(getPositionDegrees());
+  // }
 
   @Override
   public void periodic() {
@@ -429,35 +381,6 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
     }
   }
 
-  @Override
-  public void simulationPeriodic() {
-    m_armSim.setInputVoltage(MathUtil.clamp(wristMotor.getMotorOutputVoltage(), -12, 12));
-
-    double dt = StateHandler.getSimDt();
-    m_armSim.update(dt);
-
-    Unmanaged.feedEnable(20);
-
-    // Using negative sensor units to match physical behavior
-    wristMotor
-        .getSimCollection()
-        .setIntegratedSensorRawPosition(
-            (int)
-                (m_simEncoderSign
-                    * Units.radiansToDegrees(m_armSim.getAngleRads())
-                    / WRIST.encoderUnitsToDegrees));
-
-    wristMotor
-        .getSimCollection()
-        .setIntegratedSensorVelocity(
-            (int)
-                (m_simEncoderSign
-                    * Units.radiansToDegrees(m_armSim.getVelocityRadPerSec())
-                    / WRIST.encoderUnitsToDegrees
-                    * 10.0));
-
-    wristMotor.getSimCollection().setBusVoltage(RobotController.getBatteryVoltage());
-  }
 
   @SuppressWarnings("RedundantThrows")
   @Override

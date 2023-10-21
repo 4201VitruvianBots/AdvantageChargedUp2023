@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.CONTROL_MODE;
 import frc.robot.Constants.STATE_HANDLER;
 import frc.robot.subsystems.StateHandler;
-import frc.robot.subsystems.Wrist;
+import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.subsystems.elevator.Elevator;
 
 public class SetSetpoint extends CommandBase {
