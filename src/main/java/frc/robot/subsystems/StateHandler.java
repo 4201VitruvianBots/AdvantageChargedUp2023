@@ -33,10 +33,10 @@ import frc.robot.Constants.STATE_HANDLER;
 import frc.robot.Constants.STATE_HANDLER.SETPOINT;
 import frc.robot.Constants.STATE_HANDLER.SUPERSTRUCTURE_STATE;
 import frc.robot.Constants.STATE_HANDLER.ZONE;
-import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.Constants.WRIST;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.swerve.SwerveDrive;
+import frc.robot.subsystems.wrist.Wrist;
 import frc.robot.utils.SetpointSolver;
 import java.util.ArrayList;
 

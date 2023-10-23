@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.swerve;
 
-import org.littletonrobotics.junction.AutoLog;
-
 public interface GyroIO {
   public static class GyroIOInputs {
     public boolean connected = false;
@@ -15,4 +13,3 @@ public interface GyroIO {
 
   public default void updateInputs(GyroIOInputs inputs) {}
 }
-

@@ -6,8 +6,6 @@ package frc.robot.subsystems.elevator;
 
 import static frc.robot.Constants.ELEVATOR.centerOffset;
 
-import org.littletonrobotics.junction.Logger;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -28,6 +26,7 @@ import frc.robot.Constants.CONTROL_MODE;
 import frc.robot.Constants.ELEVATOR;
 import frc.robot.Constants.ELEVATOR.THRESHOLD;
 import frc.robot.Constants.STATE_HANDLER;
+import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase implements AutoCloseable {
   // private boolean m_elevatorInitialized;

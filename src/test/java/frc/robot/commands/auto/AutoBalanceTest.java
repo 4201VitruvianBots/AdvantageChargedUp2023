@@ -9,7 +9,6 @@ import frc.robot.Constants.AUTO;
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.AutoBalance;
 import frc.robot.subsystems.swerve.SwerveDrive;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

@@ -1,13 +1,10 @@
 package frc.robot.subsystems.swerve;
 
-import java.lang.Cloneable;
-import java.lang.Override;
 import org.littletonrobotics.junction.LogTable;
 import org.littletonrobotics.junction.inputs.LoggableInputs;
 
-import frc.robot.subsystems.swerve.ModuleIOInputsAutoLogged;
-
-public class ModuleIOInputsAutoLogged extends ModuleIO.ModuleIOInputs implements LoggableInputs, Cloneable {
+public class ModuleIOInputsAutoLogged extends ModuleIO.ModuleIOInputs
+    implements LoggableInputs, Cloneable {
   @Override
   public void toLog(LogTable table) {
     table.put("DrivePositionRad", drivePositionRad);
@@ -28,7 +25,8 @@ public class ModuleIOInputsAutoLogged extends ModuleIO.ModuleIOInputs implements
   public void fromLog(LogTable table) {
     drivePositionRad = table.getDouble("DrivePositionRad", drivePositionRad);
     driveVelocityRadPerSec = table.getDouble("DriveVelocityRadPerSec", driveVelocityRadPerSec);
-    driveVelocityFilteredRadPerSec = table.getDouble("DriveVelocityFilteredRadPerSec", driveVelocityFilteredRadPerSec);
+    driveVelocityFilteredRadPerSec =
+        table.getDouble("DriveVelocityFilteredRadPerSec", driveVelocityFilteredRadPerSec);
     driveAppliedVolts = table.getDouble("DriveAppliedVolts", driveAppliedVolts);
     driveCurrentAmps = table.getDoubleArray("DriveCurrentAmps", driveCurrentAmps);
     driveTempCelcius = table.getDoubleArray("DriveTempCelcius", driveTempCelcius);

@@ -4,14 +4,6 @@
 
 package frc.robot.subsystems.wrist;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.unmanaged.Unmanaged;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -27,18 +19,13 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.CAN;
 import frc.robot.Constants.CONTROL_MODE;
 import frc.robot.Constants.DIO;
 import frc.robot.Constants.INTAKE.INTAKE_STATE;
 import frc.robot.Constants.WRIST;
 import frc.robot.Constants.WRIST.THRESHOLD;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.StateHandler;
-import frc.robot.subsystems.elevator.ElevatorIO;
-import frc.robot.subsystems.wrist.WristIO.WristIOInputs;
 
 public class Wrist extends SubsystemBase implements AutoCloseable {
 
@@ -46,7 +33,7 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
 
   private WristIO m_io;
   private final WristIOInputsAutoLogged m_inputs = new WristIOInputsAutoLogged();
-  
+
   private final DigitalInput resetSwitch = new DigitalInput(DIO.resetWristSwitch);
 
   private double m_desiredSetpointRadians;
@@ -197,11 +184,6 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
     m_io.setPercentOutput(output);
   }
 
-
-
-
-
-
   private double calculateFeedforward(TrapezoidProfile.State state) {
     return (m_currentFeedForward.calculate(state.position, state.velocity) / 12.0);
   }
@@ -209,7 +191,6 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   public void setTestMode(boolean mode) {
     m_testMode = mode;
   }
-
 
   public void setArmMotorFeedForward(double s, double g, double v, double a) {
     m_currentFeedForward = new ArmFeedforward(s, g, v, a);
@@ -241,7 +222,7 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   public double getPositionDegrees() {
     return Units.radiansToDegrees(m_inputs.positionRadians);
   }
-  
+
   // Converts the angle of the wrist into a Rotation2d object to be applied to a Pose2d
   public Rotation2d getWristAngleRotation2d() {
     return Rotation2d.fromDegrees(getPositionDegrees());
@@ -349,6 +330,11 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
   // }
 
   @Override
+  public void simulationPeriodic() {
+    m_io.simulationPeriodic();
+  }
+
+  @Override
   public void periodic() {
     initializeWristAngle();
 
@@ -357,6 +343,7 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
     }
 
     updateSmartDashboard();
+    m_io.updateInputs(m_inputs);
     //    updateLog();
 
     TrapezoidProfile profile;
@@ -383,7 +370,6 @@ public class Wrist extends SubsystemBase implements AutoCloseable {
         break;
     }
   }
-
 
   @SuppressWarnings("RedundantThrows")
   @Override

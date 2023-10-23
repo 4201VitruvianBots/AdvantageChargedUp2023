@@ -4,42 +4,41 @@
 
 package frc.robot.subsystems.wrist;
 
-import org.littletonrobotics.junction.AutoLog;
-
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
 public interface WristIO {
-    @AutoLog
-    public static class WristIOInputs {
-        public double percentOutput = 0;
-        public double positionRadians = 0;
-        public double angleDegrees = 0;
+  @AutoLog
+  public static class WristIOInputs {
+    public double percentOutput = 0;
+    public double positionRadians = 0;
+    public double angleDegrees = 0;
 
-        public double outputVoltage = 0;
-        public double outputCurrent = 0;
-        
-        public double simEncoderSign = 1;
+    public double outputVoltage = 0;
+    public double outputCurrent = 0;
 
-        public double velocityDegreesPerSecond = 0;
-    }
+    public double simEncoderSign = 1;
 
-    /*Updates the loggable inputs */
-    public default void updateInputs(WristIOInputs inputs) {}
+    public double velocityDegreesPerSecond = 0;
+  }
 
-    public default void setPercentOutput(double output){}
+  /*Updates the loggable inputs */
+  public default void updateInputs(WristIOInputs inputs) {}
 
-    public default void setSetpointPositionRadians (double desiredAngleRadians) {}
+  public default void setPercentOutput(double output) {}
 
-    public default void setSetpointangleDegrees(double angleDegrees) {}
+  public default void setSetpointPositionRadians(double desiredAngleRadians) {}
 
-    public default void setSetpointTrapezoidState(TrapezoidProfile.State state, double pos) {}
+  public default void setSetpointangleDegrees(double angleDegrees) {}
 
-    public default void setPIDValues(double f, double p, double i, double d, double iZone) {}
+  public default void setSetpointTrapezoidState(TrapezoidProfile.State state, double pos) {}
 
-    public default void simulationPeriodic() {}
+  public default void setPIDValues(double f, double p, double i, double d, double iZone) {}
 
-    public default void setIValue(double value) {}
+  public default void simulationPeriodic() {}
 
-    public default void resetAngleDegrees(double angleDegrees) {}
-} 
+  public default void setIValue(double value) {}
+
+  public default void resetAngleDegrees(double angleDegrees) {}
+}

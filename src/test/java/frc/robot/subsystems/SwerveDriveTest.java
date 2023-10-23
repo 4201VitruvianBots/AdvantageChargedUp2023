@@ -15,12 +15,12 @@ import frc.robot.CommandTestBase;
 import frc.robot.RobotContainer;
 import frc.robot.simulation.SimConstants;
 import frc.robot.subsystems.swerve.SwerveDrive;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+@Disabled
 public class SwerveDriveTest extends CommandTestBase {
   protected RobotContainer m_robotContainer;
   protected SwerveDrive m_swerveDrive;

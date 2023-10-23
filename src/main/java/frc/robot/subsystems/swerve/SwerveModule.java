@@ -33,8 +33,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.STATE_HANDLER;
 import frc.robot.Constants.SWERVE_DRIVE;
 import frc.robot.Constants.SWERVE_DRIVE.SWERVE_MODULE_POSITION;
-import frc.robot.subsystems.StateHandler;
 import frc.robot.Constants.SWERVE_MODULE;
+import frc.robot.subsystems.StateHandler;
 import frc.robot.utils.CtreUtils;
 
 public class SwerveModule extends SubsystemBase implements AutoCloseable {

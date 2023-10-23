@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems.swerve;
 
-import org.littletonrobotics.junction.AutoLog;
-
 public interface ModuleIO {
   public static class ModuleIOInputs {
     public double drivePositionRad = 0.0;

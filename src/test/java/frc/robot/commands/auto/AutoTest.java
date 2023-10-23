@@ -10,9 +10,7 @@ import frc.robot.simulation.SimConstants;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.elevator.Elevator;
 import frc.robot.subsystems.swerve.SwerveDrive;
-
 import frc.robot.subsystems.wrist.Wrist;
-
 import org.junit.jupiter.api.*;
 
 public class AutoTest {

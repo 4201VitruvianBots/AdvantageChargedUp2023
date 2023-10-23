@@ -61,7 +61,6 @@ import frc.robot.subsystems.elevator.ElevatorIOReal;
 import frc.robot.subsystems.elevator.ElevatorIOSim;
 import frc.robot.subsystems.swerve.SwerveDrive;
 import frc.robot.subsystems.wrist.Wrist;
-import frc.robot.subsystems.wrist.WristIO;
 import frc.robot.subsystems.wrist.WristIOReal;
 import frc.robot.subsystems.wrist.WristIOSim;
 import frc.robot.utils.LogManager;
@@ -130,8 +129,7 @@ public class RobotContainer implements AutoCloseable {
       m_vision = new Vision(m_swerveDrive, m_logger, m_controls, m_intake);
       m_autoChooser = new SendableChooser<>();
       m_led = new LEDSubsystem(m_controls);
-      m_stateHandler =
-          new StateHandler(m_intake, m_wrist, m_swerveDrive, m_elevator, m_vision);
+      m_stateHandler = new StateHandler(m_intake, m_wrist, m_swerveDrive, m_elevator, m_vision);
       m_fieldSim =
           new FieldSim(m_swerveDrive, m_vision, m_elevator, m_wrist, m_stateHandler, m_controls);
     } else {
@@ -143,8 +141,7 @@ public class RobotContainer implements AutoCloseable {
       m_vision = new Vision(m_swerveDrive, m_logger, m_controls, m_intake);
       m_autoChooser = new SendableChooser<>();
       m_led = new LEDSubsystem(m_controls);
-      m_stateHandler =
-          new StateHandler(m_intake, m_wrist, m_swerveDrive, m_elevator, m_vision);
+      m_stateHandler = new StateHandler(m_intake, m_wrist, m_swerveDrive, m_elevator, m_vision);
       m_fieldSim =
           new FieldSim(m_swerveDrive, m_vision, m_elevator, m_wrist, m_stateHandler, m_controls);
     }

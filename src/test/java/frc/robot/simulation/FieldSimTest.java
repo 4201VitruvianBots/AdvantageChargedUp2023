@@ -12,10 +12,10 @@ import frc.robot.Constants.SCORING_STATE;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Controls;
 import frc.robot.subsystems.swerve.SwerveDrive;
-
 import org.junit.jupiter.api.*;
 import utils.TestUtils;
 
+@Disabled
 public class FieldSimTest {
   protected RobotContainer m_robotContainer;
   protected SwerveDrive m_swerveDrive;

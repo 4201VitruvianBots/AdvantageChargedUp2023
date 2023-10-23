@@ -7,7 +7,6 @@ import frc.robot.Constants.SWERVE_DRIVE;
 import frc.robot.Constants.VISION.CAMERA_SERVER;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.SwerveDrive;
-
 import java.util.function.DoubleSupplier;
 
 public class DriveForwardWithVisionInput extends CommandBase {

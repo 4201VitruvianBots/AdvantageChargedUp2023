@@ -26,7 +26,6 @@ import frc.robot.Constants.VISION;
 import frc.robot.Constants.VISION.CAMERA_SERVER;
 import frc.robot.Constants.VISION.PIPELINE;
 import frc.robot.subsystems.swerve.SwerveDrive;
-
 import java.util.stream.DoubleStream;
 
 public class Vision extends SubsystemBase implements AutoCloseable {

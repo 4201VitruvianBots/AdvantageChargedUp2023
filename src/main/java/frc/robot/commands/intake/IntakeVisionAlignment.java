@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.VISION.CAMERA_SERVER;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.SwerveDrive;
-
 import java.util.function.DoubleSupplier;
 
 public class IntakeVisionAlignment extends CommandBase {
